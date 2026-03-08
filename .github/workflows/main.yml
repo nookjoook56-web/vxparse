@@ -2,8 +2,8 @@ name: Otomatik Playlist Guncelle
 
 on:
   schedule:
-    - cron: '0 0 * * *' # Her gece 00:00'da otomatik calisir
-  workflow_dispatch: # Manuel calistirma butonu ekler
+    - cron: '0 0 * * *' # Her gece 00:00'da otomatik çalışır
+  workflow_dispatch: # Manuel çalıştırma butonu ekler
 
 jobs:
   build:
@@ -24,9 +24,8 @@ jobs:
 
     - name: Scripti Calistir
       run: |
-        # Inquirer hatasini onlemek icin headless modda veya direkt servis bazli calistir
-        # Scriptin parametrelerini kendi ihtiyacina gore buraya ekleyebilirsin
-        python vxparser/main.py --auto
+        # Dosyayı bul ve çalıştır (Klasör yapısı ne olursa olsun bulur)
+        find . -name "main.py" -exec python {} --auto \;
 
     - name: Degisiklikleri Kaydet
       run: |
@@ -35,4 +34,3 @@ jobs:
         git add .
         git commit -m "Playlist otomatik güncellendi: $(date)" || exit 0
         git push
-        
